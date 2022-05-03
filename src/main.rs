@@ -5,12 +5,12 @@ use reqwest;
 use rocket::response::content;
 use std::time::Duration;
 
-static mut PRICE: String = String::new();
+static mut DATA: String = String::new();
 
 #[get("/")]
 fn json() -> content::Json<&'static str> {
     unsafe {
-        content::Json(PRICE.as_str())
+        content::Json(DATA.as_str())
     }
 }
 
@@ -21,7 +21,7 @@ async fn get() -> Result<(), reqwest::Error> {
     let body = res.text().await?;
     {
         unsafe {
-            PRICE = body;
+            DATA = body;
         }
     }
     Ok(())
